@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/RegWatch.Web/RegWatch.Web.csproj" />
+  </Folder>
+</Solution>
