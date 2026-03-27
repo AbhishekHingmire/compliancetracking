@@ -1,17 +1,15 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
-using RegWatch.Web.Data;
+using RegWatch.Infrastructure;
+using RegWatch.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// MVC
 builder.Services.AddControllersWithViews();
 
-// Database (PostgreSQL via Npgsql — update connection string before enabling)
-// builder.Services.AddDbContext<AppDbContext>(options =>
-//     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Infrastructure (services stubs — no DB yet)
+builder.Services.AddInfrastructure(builder.Configuration);
 
-// Authentication — cookie scheme
+// Cookie authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -22,25 +20,23 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 
-// Authorization
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Error handling
 if (app.Environment.IsDevelopment())
-{
     app.UseDeveloperExceptionPage();
-}
 else
 {
-    app.UseExceptionHandler("/home/error");
+    app.UseExceptionHandling();
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseRequestLogging();
+app.UseTenantResolution();
 app.UseAuthentication();
 app.UseAuthorization();
 
