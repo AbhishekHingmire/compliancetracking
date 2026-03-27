@@ -1,0 +1,42 @@
+@{
+    int pageNum   = (int)(ViewData["Page"]       ?? 1);
+    int totalPages= (int)(ViewData["TotalPages"]  ?? 1);
+    string ctrl   = (string)(ViewData["PaginationController"] ?? ViewContext.RouteData.Values["controller"]?.ToString() ?? "Home");
+    string act    = (string)(ViewData["PaginationAction"]     ?? "Index");
+}
+@if (totalPages > 1)
+{
+<nav class="flex items-center justify-between mt-6 pt-5 border-t border-gray-200">
+    <p class="text-sm text-gray-500">
+        Page <span class="font-semibold text-gray-900">@pageNum</span> of <span class="font-semibold text-gray-900">@totalPages</span>
+    </p>
+    <div class="flex items-center gap-1.5">
+        @if (pageNum > 1)
+        {
+            <a asp-controller="@ctrl" asp-action="@act" asp-route-p="@(pageNum-1)"
+               class="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>Prev
+            </a>
+        }
+        @for (int i = Math.Max(1, pageNum - 2); i <= Math.Min(totalPages, pageNum + 2); i++)
+        {
+            if (i == pageNum)
+            {
+                <span class="w-9 h-9 flex items-center justify-center text-sm font-semibold bg-brand-600 text-white rounded-lg">@i</span>
+            }
+            else
+            {
+                <a asp-controller="@ctrl" asp-action="@act" asp-route-p="@i"
+                   class="w-9 h-9 flex items-center justify-center text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">@i</a>
+            }
+        }
+        @if (pageNum < totalPages)
+        {
+            <a asp-controller="@ctrl" asp-action="@act" asp-route-p="@(pageNum+1)"
+               class="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                Next<i data-lucide="chevron-right" class="w-4 h-4"></i>
+            </a>
+        }
+    </div>
+</nav>
+}

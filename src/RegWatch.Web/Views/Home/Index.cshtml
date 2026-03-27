@@ -1,0 +1,205 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Never Miss a Regulation Change";
+}
+<style>
+.gradient-hero{background:linear-gradient(135deg,#142857 0%,#1a6df5 50%,#338dff 100%)}
+[x-cloak]{display:none!important}
+@@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-wrap{overflow:hidden}
+.ticker-inner{display:flex;width:max-content;animation:ticker 30s linear infinite}
+</style>
+
+<!-- HERO -->
+<section class="gradient-hero min-h-screen flex flex-col pt-16">
+    <div class="flex-1 flex flex-col items-center justify-center text-center px-4 py-20">
+        <div class="inline-flex items-center gap-2 bg-white/10 text-white/90 text-xs font-semibold px-4 py-2 rounded-full mb-6 backdrop-blur-sm border border-white/20">
+            <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+            Monitoring 40+ regulatory bodies in real-time
+        </div>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-6 max-w-5xl">
+            Never Miss a<br/>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-cyan-200">Government Regulation</span><br/>
+            Change Again
+        </h1>
+        <p class="text-xl text-white/70 max-w-2xl mb-10 leading-relaxed">
+            RegWatch monitors CBIC, SEBI, EPFO, MCA, FSSAI and 35+ more bodies. Get plain-English &amp; Hindi alerts, deadline tracking, and personalised compliance reports — before the deadline hits.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 mb-16">
+            <a asp-controller="Auth" asp-action="Register"
+               class="px-8 py-4 bg-white text-brand-800 font-bold text-lg rounded-2xl hover:bg-blue-50 transition-all shadow-lg hover:-translate-y-0.5">
+                Start Free — No Credit Card
+            </a>
+            <a asp-controller="Home" asp-action="Pricing"
+               class="px-8 py-4 bg-white/10 text-white font-bold text-lg rounded-2xl border border-white/30 hover:bg-white/20 transition-all">
+                View Pricing →
+            </a>
+        </div>
+        <div class="flex flex-wrap items-center justify-center gap-8 text-white/60 text-sm">
+            <span class="flex items-center gap-2"><i data-lucide="building-2" class="w-4 h-4"></i>2,000+ businesses</span>
+            <span class="flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4"></i>40+ bodies monitored</span>
+            <span class="flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4"></i>Alerts in &lt;2 hours</span>
+            <span class="flex items-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i>WhatsApp + Email</span>
+        </div>
+    </div>
+    <div class="flex justify-center pb-8">
+        <div class="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-1">
+            <div class="w-1.5 h-3 bg-white/50 rounded-full animate-bounce"></div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS TICKER -->
+<section class="bg-brand-950 py-4 ticker-wrap">
+    <div class="ticker-inner gap-16 whitespace-nowrap">
+        @foreach (var _ in Enumerable.Range(0, 2))
+        {
+            foreach (var stat in new[] { ("40+", "Regulatory Bodies"), ("2,000+", "Businesses Protected"), ("50,000+", "Alerts Sent"), ("₹12 Cr+", "Savings Identified"), ("99.9%", "Uptime SLA"), ("<2 hrs", "Alert Turnaround") })
+            {
+                <span class="inline-flex items-center gap-3 px-6">
+                    <span class="text-2xl font-black text-white">@stat.Item1</span>
+                    <span class="text-white/50 text-sm">@stat.Item2</span>
+                    <span class="text-white/20 ml-3">•</span>
+                </span>
+            }
+        }
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <span class="text-brand-600 font-semibold text-sm uppercase tracking-wider">Why RegWatch</span>
+            <h2 class="text-4xl font-black text-gray-900 mt-2 mb-4">Everything you need to stay compliant</h2>
+            <p class="text-gray-500 text-lg max-w-2xl mx-auto">From raw gazette notifications to actionable steps — we translate complexity into clear guidance.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @{
+                var features = new[]
+                {
+                    ("zap", "Real-time Alerts", "Notified within 2 hours of any change on CBIC, SEBI, EPFO, MCA and 35+ more bodies."),
+                    ("languages", "Plain English + Hindi", "AI summarises complex legalese into clear, actionable English and Hindi."),
+                    ("calendar", "Deadline Tracker", "Never miss a filing deadline. Auto-generated calendar with recurring reminders."),
+                    ("calculator", "Savings Calculator", "See exactly how much each regulation impacts your business in rupees."),
+                    ("message-circle", "WhatsApp Alerts", "High-priority alerts delivered directly to WhatsApp for instant awareness."),
+                    ("file-text", "Monthly Reports", "Compliance summary PDFs ready to share with your CFO or legal team."),
+                };
+            }
+            @foreach (var f in features)
+            {
+                <div class="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow group">
+                    <div class="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center mb-5 group-hover:bg-brand-600 transition-colors">
+                        <i data-lucide="@f.Item1" class="w-6 h-6 text-brand-600 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">@f.Item2</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">@f.Item3</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-black text-gray-900 mb-4">Up and Running in 5 Minutes</h2>
+            <p class="text-gray-500 text-lg">No setup complexity. No compliance team required.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            @{
+                var steps = new[]
+                {
+                    ("user-plus", "01", "Create Account", "Sign up free. No credit card required."),
+                    ("settings",  "02", "Set Your Profile", "Tell us your industry, turnover, and state."),
+                    ("bell",      "03", "Get Matched", "AI matches you with relevant regulations."),
+                    ("check-circle","04","Stay Compliant", "Get alerts, track deadlines, generate reports."),
+                };
+            }
+            @foreach (var s in steps)
+            {
+                <div class="text-center">
+                    <div class="relative inline-flex mb-4">
+                        <div class="w-16 h-16 bg-brand-600 rounded-2xl flex items-center justify-center">
+                            <i data-lucide="@s.Item1" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <span class="absolute -top-2 -right-2 w-7 h-7 bg-brand-900 text-white text-xs font-black rounded-full flex items-center justify-center">@s.Item2</span>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">@s.Item3</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">@s.Item4</p>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- BODIES -->
+<section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-black text-gray-900 mb-3">40+ Regulatory Bodies Monitored</h2>
+            <p class="text-gray-500">Comprehensive coverage across all major Indian regulatory authorities</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3">
+            @foreach (var b in new[] { "CBIC","SEBI","EPFO","MCA","FSSAI","RBI","IRDAI","DPIIT","MoF","PFRDA","CCI","TRAI","DGFT","MoPNG","CDSCO","BIS","NABARD","SIDBI" })
+            {
+                <span class="px-4 py-2 bg-gray-100 text-gray-700 text-sm font-semibold rounded-xl hover:bg-brand-50 hover:text-brand-700 transition-colors">@b</span>
+            }
+            <span class="px-4 py-2 bg-brand-50 text-brand-700 text-sm font-semibold rounded-xl">+22 more</span>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-black text-gray-900 mb-4">Trusted by Indian Businesses</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @{
+                var testimonials = new[]
+                {
+                    ("RegWatch saved us from a ₹12 lakh GST penalty. The alert came 3 weeks before the deadline.", "Priya Sharma", "CFO, TechCraft Pvt. Ltd.", "PS"),
+                    ("As a founder I was always worried about compliance. RegWatch in Hindi was a game-changer.", "Amit Verma", "Founder, GreenLeaf Foods", "AV"),
+                    ("The monthly report is exactly what our board wants. Professional, clear and bilingual.", "Sunita Iyer", "CS, NexaFin Capital", "SI"),
+                };
+            }
+            @foreach (var t in testimonials)
+            {
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                    <div class="flex gap-1 mb-4">
+                        @for (int s = 0; s < 5; s++) { <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i> }
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">"@t.Item1"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-600 flex items-center justify-center text-white font-bold text-sm">@t.Item4</div>
+                        <div>
+                            <p class="font-semibold text-gray-900 text-sm">@t.Item2</p>
+                            <p class="text-gray-500 text-xs">@t.Item3</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="gradient-hero py-24">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-4xl font-black text-white mb-4">Ready to stop worrying about compliance?</h2>
+        <p class="text-white/70 text-lg mb-10">Join 2,000+ Indian businesses that trust RegWatch.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a asp-controller="Auth" asp-action="Register"
+               class="px-8 py-4 bg-white text-brand-800 font-bold text-lg rounded-2xl hover:bg-blue-50 transition-all shadow-lg">
+                Start Free Today
+            </a>
+            <a asp-controller="Home" asp-action="Pricing"
+               class="px-8 py-4 bg-white/10 text-white font-bold text-lg rounded-2xl border border-white/30 hover:bg-white/20 transition-all">
+                See Pricing
+            </a>
+        </div>
+    </div>
+</section>

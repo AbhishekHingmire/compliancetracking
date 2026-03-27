@@ -1,0 +1,41 @@
+## .NET / C#
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.swp
+*.sln.docstates
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+bld/
+
+## NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+project.lock.json
+artifacts/
+
+## Test Results
+TestResults/
+
+## Rider / JetBrains
+.idea/
+
+## VS Code
+.vscode/
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Secrets — keep only base appsettings; exclude env-specific ones except Development
+appsettings.Production.json
+appsettings.Staging.json
+
+## Publish output
+**/publish/

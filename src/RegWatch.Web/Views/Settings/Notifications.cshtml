@@ -1,0 +1,138 @@
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewData["Title"] = "Notification Settings";
+}
+<style>[x-cloak]{display:none!important}</style>
+
+<div class="max-w-2xl mx-auto space-y-5" x-data="{
+    emailDigest: true, emailInstant: true, whatsapp: false, weekly: true, monthly: true,
+    waPriority: 'high', digestTime: '08:00', weeklyDay: '1',
+    saved: false,
+    save() { this.saved=true; setTimeout(()=>this.saved=false,3000); }
+}">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-black text-gray-900">Notification Settings</h1>
+            <p class="text-gray-500 text-sm mt-1">Choose how and when you receive compliance alerts</p>
+        </div>
+    </div>
+
+    <div x-show="saved" x-cloak x-transition
+         class="flex items-center gap-3 bg-green-50 border border-green-200 rounded-xl px-5 py-3">
+        <i data-lucide="check-circle" class="w-5 h-5 text-green-600"></i>
+        <p class="text-green-700 font-medium text-sm">Settings saved successfully!</p>
+    </div>
+
+    <!-- Email notifications -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm divide-y divide-gray-100">
+        <div class="flex items-center gap-4 px-6 py-4">
+            <div class="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i data-lucide="mail" class="w-5 h-5 text-brand-600"></i>
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold text-gray-900">Email Notifications</h3>
+                <p class="text-xs text-gray-500">Delivered to your registered email address</p>
+            </div>
+        </div>
+        <div class="flex items-center justify-between px-6 py-4">
+            <div>
+                <p class="text-sm font-semibold text-gray-900">Daily Digest</p>
+                <p class="text-xs text-gray-500">Summary of all new alerts once a day</p>
+            </div>
+            <button @@click="emailDigest=!emailDigest" :class="emailDigest ? 'bg-brand-600' : 'bg-gray-200'"
+                    class="relative w-12 h-6 rounded-full transition-colors duration-200 flex-shrink-0">
+                <span :class="emailDigest ? 'translate-x-6' : 'translate-x-1'"
+                      class="absolute top-1 w-4 h-4 bg-white rounded-full transition-transform block shadow"></span>
+            </button>
+        </div>
+        <div class="flex items-center justify-between px-6 py-4" x-show="emailDigest">
+            <div>
+                <p class="text-sm font-semibold text-gray-900">Digest Time</p>
+                <p class="text-xs text-gray-500">What time to send your daily digest</p>
+            </div>
+            <input type="time" x-model="digestTime"
+                   class="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-brand-400 outline-none" />
+        </div>
+        <div class="flex items-center justify-between px-6 py-4">
+            <div>
+                <p class="text-sm font-semibold text-gray-900">Instant Alerts</p>
+                <p class="text-xs text-gray-500">Email immediately on high-priority changes</p>
+            </div>
+            <button @@click="emailInstant=!emailInstant" :class="emailInstant ? 'bg-brand-600' : 'bg-gray-200'"
+                    class="relative w-12 h-6 rounded-full transition-colors duration-200 flex-shrink-0">
+                <span :class="emailInstant ? 'translate-x-6' : 'translate-x-1'"
+                      class="absolute top-1 w-4 h-4 bg-white rounded-full transition-transform block shadow"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- WhatsApp -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm divide-y divide-gray-100">
+        <div class="flex items-center gap-4 px-6 py-4">
+            <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i data-lucide="message-circle" class="w-5 h-5 text-green-600"></i>
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold text-gray-900">WhatsApp Alerts</h3>
+                <p class="text-xs text-gray-500">Requires Pro plan or above</p>
+            </div>
+            <button @@click="whatsapp=!whatsapp" :class="whatsapp ? 'bg-brand-600' : 'bg-gray-200'"
+                    class="relative w-12 h-6 rounded-full transition-colors duration-200 flex-shrink-0">
+                <span :class="whatsapp ? 'translate-x-6' : 'translate-x-1'"
+                      class="absolute top-1 w-4 h-4 bg-white rounded-full transition-transform block shadow"></span>
+            </button>
+        </div>
+        <div class="px-6 py-4" x-show="whatsapp" x-cloak>
+            <p class="text-sm font-semibold text-gray-700 mb-3">Send WhatsApp for priorities:</p>
+            <div class="flex gap-3">
+                @foreach (var p in new[] { ("high","High only"), ("medium","High + Medium"), ("all","All") })
+                {
+                    <button @@click="waPriority='@p.Item1'"
+                            :class="waPriority==='@p.Item1' ? 'bg-brand-600 text-white border-brand-600' : 'text-gray-600 border-gray-200 hover:border-brand-300'"
+                            class="flex-1 py-2.5 text-xs font-semibold rounded-xl border-2 transition-all">@p.Item2</button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm divide-y divide-gray-100">
+        <div class="flex items-center gap-4 px-6 py-4">
+            <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <i data-lucide="file-text" class="w-5 h-5 text-purple-600"></i>
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold text-gray-900">Reports & Summaries</h3>
+            </div>
+        </div>
+        <div class="flex items-center justify-between px-6 py-4">
+            <div>
+                <p class="text-sm font-semibold text-gray-900">Weekly Summary</p>
+                <p class="text-xs text-gray-500">Compliance digest every week</p>
+            </div>
+            <button @@click="weekly=!weekly" :class="weekly ? 'bg-brand-600' : 'bg-gray-200'"
+                    class="relative w-12 h-6 rounded-full transition-colors duration-200 flex-shrink-0">
+                <span :class="weekly ? 'translate-x-6' : 'translate-x-1'"
+                      class="absolute top-1 w-4 h-4 bg-white rounded-full transition-transform block shadow"></span>
+            </button>
+        </div>
+        <div class="flex items-center justify-between px-6 py-4">
+            <div>
+                <p class="text-sm font-semibold text-gray-900">Monthly Report</p>
+                <p class="text-xs text-gray-500">Detailed PDF report at end of month</p>
+            </div>
+            <button @@click="monthly=!monthly" :class="monthly ? 'bg-brand-600' : 'bg-gray-200'"
+                    class="relative w-12 h-6 rounded-full transition-colors duration-200 flex-shrink-0">
+                <span :class="monthly ? 'translate-x-6' : 'translate-x-1'"
+                      class="absolute top-1 w-4 h-4 bg-white rounded-full transition-transform block shadow"></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex justify-end">
+        <button @@click="save()"
+                class="flex items-center gap-2 px-8 py-3.5 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition-colors">
+            <i data-lucide="save" class="w-4 h-4"></i>Save Settings
+        </button>
+    </div>
+</div>

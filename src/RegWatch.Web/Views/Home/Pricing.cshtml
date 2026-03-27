@@ -1,0 +1,136 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Pricing";
+}
+<style>[x-cloak]{display:none!important}.gradient-hero{background:linear-gradient(135deg,#142857 0%,#1a6df5 100%)}</style>
+
+<div class="gradient-hero pt-24 pb-20 text-white text-center px-4">
+    <h1 class="text-5xl font-black mb-4">Simple, Transparent Pricing</h1>
+    <p class="text-white/70 text-lg">Start free. Upgrade when you're ready. Cancel anytime.</p>
+</div>
+
+<section class="py-20 bg-gray-50" x-data="{ annual: false }">
+    <div class="max-w-5xl mx-auto px-4">
+        <!-- Toggle -->
+        <div class="flex items-center justify-center gap-4 mb-12">
+            <span :class="!annual ? 'text-gray-900 font-semibold' : 'text-gray-400'" class="text-sm">Monthly</span>
+            <button @@click="annual=!annual" :class="annual ? 'bg-brand-600' : 'bg-gray-300'"
+                    class="relative w-12 h-6 rounded-full transition-colors duration-200">
+                <span :class="annual ? 'translate-x-6' : 'translate-x-1'"
+                      class="absolute top-1 w-4 h-4 bg-white rounded-full transition-transform block shadow"></span>
+            </button>
+            <span :class="annual ? 'text-gray-900 font-semibold' : 'text-gray-400'" class="text-sm">
+                Annual <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-full ml-1">Save 20%</span>
+            </span>
+        </div>
+
+        <!-- Plans grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+            <!-- Free -->
+            <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+                <h3 class="text-xl font-bold text-gray-900 mb-1">Free</h3>
+                <div class="flex items-end gap-1 mb-3">
+                    <span class="text-4xl font-black text-gray-900">₹0</span>
+                    <span class="text-gray-400 pb-1 text-sm">/month</span>
+                </div>
+                <p class="text-gray-500 text-sm mb-6">For individuals and early-stage startups</p>
+                <a asp-controller="Auth" asp-action="Register"
+                   class="block text-center w-full py-3 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-400 hover:text-brand-600 transition-colors mb-8">
+                    Get started free
+                </a>
+                <ul class="space-y-3 text-sm">
+                    @foreach (var f in new[] { "5 alerts/month", "2 regulatory bodies", "Email only", "Basic dashboard", "7-day history" })
+                    {<li class="flex items-center gap-2 text-gray-600"><i data-lucide="check" class="w-4 h-4 text-green-500 flex-shrink-0"></i>@f</li>}
+                    @foreach (var f in new[] { "WhatsApp alerts", "Deadline calendar", "Monthly reports" })
+                    {<li class="flex items-center gap-2 text-gray-300"><i data-lucide="x" class="w-4 h-4 flex-shrink-0"></i>@f</li>}
+                </ul>
+            </div>
+
+            <!-- Pro -->
+            <div class="bg-brand-600 rounded-2xl p-8 shadow-2xl ring-4 ring-brand-300 relative -mt-4">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-amber-900 text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wide">Most Popular</div>
+                <h3 class="text-xl font-bold text-white mb-1">Pro</h3>
+                <div class="flex items-end gap-1 mb-3">
+                    <span class="text-4xl font-black text-white" x-text="annual ? '₹2,399' : '₹2,999'"></span>
+                    <span class="text-white/60 pb-1 text-sm">/month</span>
+                </div>
+                <p class="text-white/70 text-sm mb-6">For growing SMEs and compliance professionals</p>
+                <a asp-controller="Auth" asp-action="Register"
+                   class="block text-center w-full py-3 bg-white text-brand-700 font-bold rounded-xl hover:bg-blue-50 transition-colors mb-8">
+                    Start 14-day trial
+                </a>
+                <ul class="space-y-3 text-sm">
+                    @foreach (var f in new[] { "Unlimited alerts", "All 40+ bodies", "Email + WhatsApp", "Deadline calendar", "Hindi summaries", "AI impact calculator", "Monthly PDF reports", "Priority support" })
+                    {<li class="flex items-center gap-2 text-white/90"><i data-lucide="check" class="w-4 h-4 text-green-300 flex-shrink-0"></i>@f</li>}
+                </ul>
+            </div>
+
+            <!-- Business -->
+            <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+                <h3 class="text-xl font-bold text-gray-900 mb-1">Business</h3>
+                <div class="flex items-end gap-1 mb-3">
+                    <span class="text-4xl font-black text-gray-900" x-text="annual ? '₹7,199' : '₹8,999'"></span>
+                    <span class="text-gray-400 pb-1 text-sm">/month</span>
+                </div>
+                <p class="text-gray-500 text-sm mb-6">For enterprises and multi-entity groups</p>
+                <a asp-controller="Home" asp-action="Contact"
+                   class="block text-center w-full py-3 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 transition-colors mb-8">
+                    Contact sales
+                </a>
+                <ul class="space-y-3 text-sm">
+                    @foreach (var f in new[] { "Everything in Pro", "Up to 10 entities", "Dedicated account manager", "API access + webhooks", "5 team members", "SLA guarantee", "Custom reports" })
+                    {<li class="flex items-center gap-2 text-gray-600"><i data-lucide="check" class="w-4 h-4 text-green-500 flex-shrink-0"></i>@f</li>}
+                </ul>
+            </div>
+        </div>
+
+        <!-- ROI calculator -->
+        <div class="mt-20 bg-white rounded-2xl border border-gray-200 p-8 shadow-sm" x-data="{ saving: 240000 }">
+            <h2 class="text-2xl font-black text-gray-900 mb-2">ROI Calculator</h2>
+            <p class="text-gray-500 text-sm mb-6">Estimate how much RegWatch can save your business annually</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-3">Expected annual compliance savings</label>
+                    <input type="range" min="50000" max="2000000" step="50000" x-model="saving"
+                           class="w-full accent-brand-600 h-2 rounded-full" />
+                    <div class="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>₹50K</span><span>₹20L</span>
+                    </div>
+                </div>
+                <div class="bg-brand-50 rounded-xl p-6 text-center">
+                    <p class="text-sm text-gray-500 mb-1">Estimated Annual Savings</p>
+                    <p class="text-4xl font-black text-brand-600" x-text="'₹' + (saving/100000).toFixed(1) + 'L'"></p>
+                    <p class="text-sm text-gray-500 mt-2">vs Pro plan cost of ₹35,988/yr</p>
+                    <p class="text-green-600 font-bold mt-1 text-lg" x-text="Math.round((saving-35988)/saving*100) + '% ROI'"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="mt-16 max-w-2xl mx-auto" x-data="{ open: null }">
+            <h2 class="text-3xl font-black text-gray-900 text-center mb-10">Frequently Asked Questions</h2>
+            @{
+                var faqs = new[]
+                {
+                    (1, "Can I switch plans later?", "Yes! Upgrade or downgrade anytime. Changes apply from the next billing cycle."),
+                    (2, "Is there a free trial for Pro?", "Yes — every new Pro signup gets a 14-day free trial with full access. No credit card required."),
+                    (3, "Do you support GST invoice?", "All invoices are GST-compliant and downloadable from your billing dashboard."),
+                    (4, "What payment methods?", "All UPI apps, credit/debit cards, net banking, and corporate cheques via Razorpay."),
+                    (5, "Can I add team members?", "Business plan supports up to 5 team members, each with their own login and preferences."),
+                };
+            }
+            @foreach (var (i, q, a) in faqs)
+            {
+                <div class="border-b border-gray-200">
+                    <button @@click="open === @i ? open = null : open = @i"
+                            class="flex items-center justify-between w-full py-5 text-left">
+                        <span class="font-semibold text-gray-900 text-sm">@q</span>
+                        <i :class="open === @i ? 'rotate-45' : ''" data-lucide="plus"
+                           class="w-5 h-5 text-gray-400 transition-transform flex-shrink-0"></i>
+                    </button>
+                    <div x-show="open === @i" x-cloak class="pb-5 text-gray-500 text-sm leading-relaxed">@a</div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

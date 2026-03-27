@@ -1,0 +1,100 @@
+@model RegWatch.Web.Models.ViewModels.RegisterViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Create Account";
+}
+<style>.gradient-hero{background:linear-gradient(135deg,#142857 0%,#1a6df5 100%)}[x-cloak]{display:none!important}</style>
+
+<div class="min-h-screen gradient-hero flex items-center justify-center px-4 pt-16 py-10">
+    <div class="w-full max-w-lg">
+        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-10">
+            <div class="text-center mb-8">
+                <a asp-controller="Home" asp-action="Index" class="inline-flex items-center gap-2 mb-6">
+                    <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center">
+                        <i data-lucide="shield-check" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <span class="text-gray-900 font-bold text-xl">RegWatch India</span>
+                </a>
+                <h1 class="text-2xl font-black text-gray-900 mb-2">Create your free account</h1>
+                <p class="text-gray-500 text-sm">14-day Pro trial included. No credit card required.</p>
+            </div>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
+                    <div asp-validation-summary="All" class="text-red-700 text-sm"></div>
+                </div>
+            }
+
+            <form asp-controller="Auth" asp-action="Register" method="post"
+                  x-data="{ pw: '', strength() { let s=0; if(this.pw.length>=8)s++; if(/[A-Z]/.test(this.pw))s++; if(/[0-9]/.test(this.pw))s++; if(/[^A-Za-z0-9]/.test(this.pw))s++; return s; } }"
+                  class="space-y-4">
+                @Html.AntiForgeryToken()
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label asp-for="Name" class="block text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
+                        <input asp-for="Name" placeholder="Rahul Kumar"
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 focus:border-brand-400 outline-none transition text-sm" />
+                        <span asp-validation-for="Name" class="text-red-500 text-xs mt-1 block"></span>
+                    </div>
+                    <div>
+                        <label asp-for="CompanyName" class="block text-sm font-medium text-gray-700 mb-1.5">Company Name</label>
+                        <input asp-for="CompanyName" placeholder="Acme Corp Pvt. Ltd."
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 focus:border-brand-400 outline-none transition text-sm" />
+                        <span asp-validation-for="CompanyName" class="text-red-500 text-xs mt-1 block"></span>
+                    </div>
+                </div>
+                <div>
+                    <label asp-for="Email" class="block text-sm font-medium text-gray-700 mb-1.5">Work Email</label>
+                    <input asp-for="Email" type="email" placeholder="you@company.in"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 focus:border-brand-400 outline-none transition text-sm" />
+                    <span asp-validation-for="Email" class="text-red-500 text-xs mt-1 block"></span>
+                </div>
+                <div>
+                    <label asp-for="Phone" class="block text-sm font-medium text-gray-700 mb-1.5">Mobile <span class="text-gray-400 font-normal">(optional — for WhatsApp alerts)</span></label>
+                    <input asp-for="Phone" type="tel" placeholder="+91 98765 43210"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 focus:border-brand-400 outline-none transition text-sm" />
+                </div>
+                <div x-data="{ show: false }">
+                    <label asp-for="Password" class="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+                    <div class="relative">
+                        <input asp-for="Password" :type="show ? 'text' : 'password'" placeholder="Min. 8 characters"
+                               x-model="pw"
+                               class="w-full pl-4 pr-11 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 focus:border-brand-400 outline-none transition text-sm" />
+                        <button type="button" @@click="show=!show"
+                                class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                            <i :data-lucide="show ? 'eye-off' : 'eye'" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <!-- Strength indicator -->
+                    <div class="flex gap-1 mt-2" x-data>
+                        <template x-for="i in 4">
+                            <div :class="strength() >= i
+                                ? (i<=1 ? 'bg-red-400' : i<=2 ? 'bg-amber-400' : i<=3 ? 'bg-amber-400' : 'bg-green-500')
+                                : 'bg-gray-200'"
+                                 class="h-1.5 flex-1 rounded-full transition-colors"></div>
+                        </template>
+                    </div>
+                    <span asp-validation-for="Password" class="text-red-500 text-xs mt-1 block"></span>
+                </div>
+                <div>
+                    <label asp-for="ConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1.5">Confirm Password</label>
+                    <input asp-for="ConfirmPassword" type="password" placeholder="Re-enter your password"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 focus:border-brand-400 outline-none transition text-sm" />
+                    <span asp-validation-for="ConfirmPassword" class="text-red-500 text-xs mt-1 block"></span>
+                </div>
+                <button type="submit"
+                        class="w-full py-3.5 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition-colors">
+                    Create Account — It's Free
+                </button>
+            </form>
+            <p class="text-center text-xs text-gray-400 mt-4">
+                By signing up you agree to our <a href="#" class="underline">Terms</a> and <a href="#" class="underline">Privacy Policy</a>.
+            </p>
+            <p class="text-center text-sm text-gray-500 mt-3">
+                Already have an account?
+                <a asp-controller="Auth" asp-action="Login" class="text-brand-600 font-semibold hover:text-brand-700">Sign in</a>
+            </p>
+        </div>
+    </div>
+</div>

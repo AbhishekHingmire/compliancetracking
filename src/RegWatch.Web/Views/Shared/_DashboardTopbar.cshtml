@@ -1,0 +1,101 @@
+<header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-6 flex-shrink-0">
+    <div class="flex items-center gap-3">
+        <button @@click="sidebarOpen=!sidebarOpen" class="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <div class="hidden md:flex items-center gap-2 text-sm text-gray-500">
+            <a asp-controller="Dashboard" asp-action="Index" class="hover:text-brand-600 font-medium transition-colors">RegWatch</a>
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            <span class="text-gray-900 font-medium">@ViewData["Title"]</span>
+        </div>
+    </div>
+    <div class="flex items-center gap-2" x-data="{ notifOpen: false, userOpen: false }">
+        <button id="search-btn"
+                class="hidden md:flex items-center gap-2 px-3 py-1.5 text-sm text-gray-400 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+            <i data-lucide="search" class="w-4 h-4"></i>
+            <span>Search…</span>
+            <kbd class="ml-4 text-xs bg-white border border-gray-300 rounded px-1.5 py-0.5">⌘K</kbd>
+        </button>
+        <!-- Notifications -->
+        <div class="relative">
+            <button @@click="notifOpen=!notifOpen"
+                    class="relative p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors">
+                <i data-lucide="bell" class="w-5 h-5"></i>
+                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
+            </button>
+            <div x-show="notifOpen" x-cloak @@click.away="notifOpen=false"
+                 x-transition:enter="transition ease-out duration-100"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-200 z-50">
+                <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+                    <h3 class="font-semibold text-gray-900 text-sm">Notifications</h3>
+                    <span class="text-xs bg-red-100 text-red-600 font-semibold px-2 py-0.5 rounded-full">3 new</span>
+                </div>
+                <div class="divide-y divide-gray-50 max-h-72 overflow-y-auto">
+                    <a asp-controller="Alerts" asp-action="Detail" asp-route-id="1" class="flex gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
+                        <div class="w-2 h-2 bg-red-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900 leading-tight">GST Rate Change on Textile Products</p>
+                            <p class="text-xs text-gray-500 mt-0.5">CBIC · 2 hours ago</p>
+                        </div>
+                    </a>
+                    <a asp-controller="Alerts" asp-action="Detail" asp-route-id="2" class="flex gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
+                        <div class="w-2 h-2 bg-red-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900 leading-tight">PF Contribution Threshold Revised</p>
+                            <p class="text-xs text-gray-500 mt-0.5">EPFO · 5 hours ago</p>
+                        </div>
+                    </a>
+                    <a asp-controller="Alerts" asp-action="Detail" asp-route-id="3" class="flex gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
+                        <div class="w-2 h-2 bg-amber-500 rounded-full mt-1.5 flex-shrink-0"></div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-900 leading-tight">SEBI LODR Amendment</p>
+                            <p class="text-xs text-gray-500 mt-0.5">SEBI · 1 day ago</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="px-4 py-3 border-t border-gray-100">
+                    <a asp-controller="Alerts" asp-action="Index" class="text-sm text-brand-600 hover:text-brand-700 font-medium">View all alerts →</a>
+                </div>
+            </div>
+        </div>
+        <!-- User menu -->
+        <div class="relative">
+            <button @@click="userOpen=!userOpen"
+                    class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+                <div class="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center text-white font-semibold text-sm">RK</div>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+            </button>
+            <div x-show="userOpen" x-cloak @@click.away="userOpen=false"
+                 x-transition:enter="transition ease-out duration-100"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 class="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-gray-200 z-50">
+                <div class="px-4 py-3 border-b border-gray-100">
+                    <p class="text-sm font-semibold text-gray-900">Rahul Kumar</p>
+                    <p class="text-xs text-gray-500">rahul@acmecorp.in</p>
+                </div>
+                <div class="py-1">
+                    <a asp-controller="Profile" asp-action="Setup" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                        <i data-lucide="user" class="w-4 h-4 text-gray-400"></i>Profile
+                    </a>
+                    <a asp-controller="Settings" asp-action="Notifications" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                        <i data-lucide="settings" class="w-4 h-4 text-gray-400"></i>Settings
+                    </a>
+                    <a asp-controller="Billing" asp-action="Plans" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                        <i data-lucide="credit-card" class="w-4 h-4 text-gray-400"></i>Billing
+                    </a>
+                </div>
+                <div class="py-1 border-t border-gray-100">
+                    <form asp-controller="Auth" asp-action="Logout" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>Sign out
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
