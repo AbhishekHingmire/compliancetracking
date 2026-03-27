@@ -1,25 +1,15 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RegWatch.Web.Models.ViewModels;
 
 namespace RegWatch.Web.Controllers;
 
-[Authorize]
 public class ProfileController : Controller
 {
-    [HttpGet]
-    public IActionResult Setup()
-    {
-        ViewData["Title"] = "Set Up Your Profile";
-        return View(new OnboardingViewModel());
-    }
+    [HttpGet] public IActionResult Setup() => View();
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Setup(OnboardingViewModel model)
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult Setup(int step)
     {
-        if (!ModelState.IsValid) return View(model);
-        // Demo: redirect to dashboard after setup
-        return RedirectToAction("Index", "Dashboard");
+        if (step >= 4) return RedirectToAction("Index", "Dashboard");
+        return View();
     }
 }

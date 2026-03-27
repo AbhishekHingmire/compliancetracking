@@ -1,41 +1,23 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RegWatch.Web.Models.ViewModels;
 
 namespace RegWatch.Web.Controllers;
 
 [AllowAnonymous]
 public class HomeController : Controller
 {
-    public IActionResult Index()
-    {
-        ViewData["Title"] = "RegWatch India — Never Miss a Regulation Change";
-        return View();
-    }
+    public IActionResult Index() => View();
+    public IActionResult Pricing() => View();
+    public IActionResult About() => View();
+    public IActionResult Contact() => View();
 
-    public IActionResult Pricing()
-    {
-        ViewData["Title"] = "Pricing";
-        return View();
-    }
-
-    public IActionResult About()
-    {
-        ViewData["Title"] = "About Us";
-        return View();
-    }
-
-    public IActionResult Contact()
-    {
-        ViewData["Title"] = "Contact Us";
-        return View();
-    }
+    [HttpPost, ValidateAntiForgeryToken]
+    public IActionResult ContactSubmit() => RedirectToAction(nameof(Contact));
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error() => View(new ErrorViewModel
     {
-        return View(new RegWatch.Web.Models.ViewModels.ErrorViewModel
-        {
-            RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier
-        });
-    }
+        RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier
+    });
 }
