@@ -1,0 +1,195 @@
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewData["Title"] = "Business Profile Setup";
+}
+<style>[x-cloak]{display:none!important}</style>
+
+<div class="max-w-2xl mx-auto" x-data="{
+    step: 1,
+    form: {
+        businessType: '', industry: '', turnover: '', employees: '', state: '',
+        registrations: [], gstin: '', pan: '',
+        name: '', phone: '', lang: 'en',
+    },
+    toggle(arr, val) { const i = arr.indexOf(val); i===-1 ? arr.push(val) : arr.splice(i,1); },
+    next() { if(this.step < 4) this.step++; },
+    prev() { if(this.step > 1) this.step--; },
+}">
+    <!-- Progress -->
+    <div class="mb-8">
+        <div class="flex items-center justify-between mb-3">
+            <h1 class="text-2xl font-black text-gray-900">Profile Setup</h1>
+            <span class="text-sm text-gray-500 font-medium">Step <span x-text="step"></span> of 4</span>
+        </div>
+        <div class="flex gap-2">
+            <template x-for="i in [1,2,3,4]">
+                <div :class="step >= i ? 'bg-brand-600' : 'bg-gray-200'"
+                     class="flex-1 h-2 rounded-full transition-all duration-300"></div>
+            </template>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-8">
+
+        <!-- Step 1: Business Type -->
+        <div x-show="step===1">
+            <h2 class="text-xl font-bold text-gray-900 mb-1">What type of business are you?</h2>
+            <p class="text-gray-500 text-sm mb-6">Helps us personalise your compliance profile</p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+                @foreach (var t in new[] {
+                    ("building-2","Pvt Ltd","pvtltd"), ("landmark","LLP","llp"),
+                    ("users","Partnership","partnership"), ("user","Proprietorship","proprietorship"),
+                    ("building","Public Ltd","publicltd"), ("circle","OPC","opc"),
+                })
+                {
+                    <button @@click="form.businessType='@t.Item3'"
+                            :class="form.businessType==='@t.Item3' ? 'ring-2 ring-brand-500 bg-brand-50 border-brand-300' : 'border-gray-200 hover:border-brand-300'"
+                            class="flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all text-center">
+                        <i data-lucide="@t.Item1" class="w-7 h-7 text-brand-600"></i>
+                        <span class="text-sm font-semibold text-gray-800">@t.Item2</span>
+                    </button>
+                }
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Industry Sector</label>
+                    <select x-model="form.industry" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 outline-none text-sm bg-white">
+                        <option value="">Select industry…</option>
+                        @foreach (var ind in new[] { "Manufacturing","Food & Beverage","Retail","Technology","NBFC / Finance","Healthcare","Textiles","Real Estate","Logistics","Other" })
+                        {<option>@ind</option>}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Annual Turnover</label>
+                    <select x-model="form.turnover" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 outline-none text-sm bg-white">
+                        <option value="">Select range…</option>
+                        <option>Below ₹40L (Micro)</option>
+                        <option>₹40L – ₹5Cr (Small)</option>
+                        <option>₹5Cr – ₹50Cr (Medium)</option>
+                        <option>Above ₹50Cr</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: State & Registrations -->
+        <div x-show="step===2" x-cloak>
+            <h2 class="text-xl font-bold text-gray-900 mb-1">Where do you operate?</h2>
+            <p class="text-gray-500 text-sm mb-6">Filters state-specific compliance rules</p>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1.5">Primary State of Operation</label>
+                <select x-model="form.state" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 outline-none text-sm bg-white">
+                    <option value="">Select state…</option>
+                    @foreach (var st in new[] { "Maharashtra","Karnataka","Tamil Nadu","Gujarat","Delhi","Telangana","Uttar Pradesh","Rajasthan","West Bengal","Haryana","Other" })
+                    {<option>@st</option>}
+                </select>
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Registrations you hold (select all that apply)</label>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    @foreach (var r in new[] { "GST","PAN","EPFO","ESIC","MSME/Udyam","Shop & Estab","FSSAI","Import Export Code","SEBI","ISO" })
+                    {
+                        <button @@click="toggle(form.registrations, '@r')"
+                                :class="form.registrations.includes('@r') ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-gray-700 border-gray-200 hover:border-brand-400'"
+                                class="py-2 px-3 text-xs font-semibold rounded-xl border-2 transition-all text-center">
+                            @r
+                        </button>
+                    }
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">GSTIN (optional)</label>
+                    <input type="text" x-model="form.gstin" placeholder="27AAAAA0000A1Z5"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 outline-none text-sm font-mono" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">PAN (optional)</label>
+                    <input type="text" x-model="form.pan" placeholder="AAAAA0000A"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 outline-none text-sm font-mono" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Team -->
+        <div x-show="step===3" x-cloak>
+            <h2 class="text-xl font-bold text-gray-900 mb-1">Your contact details</h2>
+            <p class="text-gray-500 text-sm mb-6">Used for sending compliance alerts</p>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Your Name</label>
+                    <input type="text" x-model="form.name" placeholder="Rahul Kumar"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 outline-none text-sm" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">WhatsApp Number (for instant alerts)</label>
+                    <input type="tel" x-model="form.phone" placeholder="+91 98765 43210"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 outline-none text-sm" />
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Language for Alerts</label>
+                    <div class="flex gap-3">
+                        <button @@click="form.lang='en'"
+                                :class="form.lang==='en' ? 'ring-2 ring-brand-500 bg-brand-50 border-brand-300' : 'border-gray-200'"
+                                class="flex-1 py-3 rounded-xl border-2 text-sm font-semibold transition-all">🇬🇧 English</button>
+                        <button @@click="form.lang='hi'"
+                                :class="form.lang==='hi' ? 'ring-2 ring-brand-500 bg-brand-50 border-brand-300' : 'border-gray-200'"
+                                class="flex-1 py-3 rounded-xl border-2 text-sm font-semibold transition-all">🇮🇳 हिंदी</button>
+                        <button @@click="form.lang='both'"
+                                :class="form.lang==='both' ? 'ring-2 ring-brand-500 bg-brand-50 border-brand-300' : 'border-gray-200'"
+                                class="flex-1 py-3 rounded-xl border-2 text-sm font-semibold transition-all">Both</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Review -->
+        <div x-show="step===4" x-cloak>
+            <h2 class="text-xl font-bold text-gray-900 mb-1">Review & Confirm</h2>
+            <p class="text-gray-500 text-sm mb-6">Everything looks good? Save your profile to start receiving alerts.</p>
+            <div class="bg-gray-50 rounded-xl p-5 space-y-3 text-sm mb-6">
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Business Type</span>
+                    <span class="font-semibold text-gray-900 capitalize" x-text="form.businessType || '—'"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Industry</span>
+                    <span class="font-semibold text-gray-900" x-text="form.industry || '—'"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Turnover</span>
+                    <span class="font-semibold text-gray-900" x-text="form.turnover || '—'"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">State</span>
+                    <span class="font-semibold text-gray-900" x-text="form.state || '—'"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Registrations</span>
+                    <span class="font-semibold text-gray-900 text-right" x-text="form.registrations.length ? form.registrations.join(', ') : '—'"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-500">Language Preference</span>
+                    <span class="font-semibold text-gray-900 uppercase" x-text="form.lang"></span>
+                </div>
+            </div>
+            <a asp-controller="Dashboard" asp-action="Index"
+               class="flex items-center justify-center gap-2 w-full py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition-colors">
+                <i data-lucide="check-circle" class="w-5 h-5"></i>Save Profile &amp; Continue
+            </a>
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
+            <button x-show="step > 1" @@click="prev()"
+                    class="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>Back
+            </button>
+            <div x-show="step===1"></div>
+            <button x-show="step < 4" @@click="next()"
+                    class="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-colors">
+                Continue<i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </div>
+</div>

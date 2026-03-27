@@ -1,0 +1,141 @@
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewData["Title"] = "Dashboard";
+}
+<style>[x-cloak]{display:none!important}</style>
+
+<div class="space-y-6">
+    <!-- Page header -->
+    <div class="flex items-center justify-between flex-wrap gap-3">
+        <div>
+            <h1 class="text-2xl font-black text-gray-900">Good morning, Rahul 👋</h1>
+            <p class="text-gray-500 text-sm mt-1">Here's your compliance overview for today</p>
+        </div>
+        <div class="flex gap-3">
+            <a asp-controller="Reports" asp-action="Monthly"
+               class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-xl hover:bg-gray-50 transition-colors">
+                <i data-lucide="file-text" class="w-4 h-4"></i>Report
+            </a>
+            <a asp-controller="Alerts" asp-action="Index"
+               class="flex items-center gap-2 px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors">
+                <i data-lucide="bell" class="w-4 h-4"></i>All Alerts
+            </a>
+        </div>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        @{
+            var stats = new[]
+            {
+                ("alert-triangle","3","Urgent Alerts","bg-red-100","text-red-600","+2 today","bg-red-50 text-red-600"),
+                ("bell","12","New This Month","bg-amber-100","text-amber-600","this month","bg-amber-50 text-amber-600"),
+                ("check-circle","28","Actioned","bg-green-100","text-green-600","92%","bg-green-50 text-green-600"),
+                ("indian-rupee","₹2.4L","Savings Found","bg-brand-100","text-brand-600","estimated","bg-brand-50 text-brand-600"),
+            };
+        }
+        @foreach (var (icon, val, label, iconBg, iconColor, badge, badgeCls) in stats)
+        {
+            <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="w-10 h-10 @iconBg rounded-xl flex items-center justify-center">
+                        <i data-lucide="@icon" class="w-5 h-5 @iconColor"></i>
+                    </div>
+                    <span class="text-xs font-semibold px-2 py-0.5 rounded-full @badgeCls">@badge</span>
+                </div>
+                <p class="text-3xl font-black text-gray-900">@val</p>
+                <p class="text-sm text-gray-500 mt-1">@label</p>
+            </div>
+        }
+    </div>
+
+    <!-- Recent alerts + deadlines -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Alerts -->
+        <div class="lg:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                <h2 class="font-bold text-gray-900">Recent Urgent Alerts</h2>
+                <a asp-controller="Alerts" asp-action="Index" class="text-sm text-brand-600 hover:text-brand-700 font-medium">View all →</a>
+            </div>
+            <div class="divide-y divide-gray-50">
+                @{
+                    var dashAlerts = new[]
+                    {
+                        (1,"GST Rate Change on Textile Products","CBIC notified revised GST rates on synthetic textile products effective 1 April.","High","CBIC","2 hours ago","₹85,000","unread"),
+                        (2,"PF Contribution Threshold Revised","EPFO revised salary threshold for mandatory PF contribution to ₹21,000/month.","High","EPFO","5 hours ago","₹36,000","unread"),
+                        (3,"SEBI LODR Amendment — Board Composition","Listed entities must ensure at least one independent woman director by 31 March.","Medium","SEBI","1 day ago","","read"),
+                    };
+                }
+                @foreach (var (id,title,body,priority,regBody,age,saving,status) in dashAlerts)
+                {
+                    <a asp-controller="Alerts" asp-action="Detail" asp-route-id="@id"
+                       class="flex items-start gap-4 px-6 py-5 hover:bg-gray-50 transition-colors group">
+                        <div class="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 @(priority=="High"?"bg-red-500":"bg-amber-500") @(status=="unread"?"":"opacity-40")"></div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between gap-3">
+                                <p class="font-semibold text-gray-900 text-sm group-hover:text-brand-600 transition-colors leading-tight">@title</p>
+                                <span class="flex-shrink-0 text-xs px-2 py-0.5 rounded-full font-semibold @(priority=="High"?"bg-red-100 text-red-700":"bg-amber-100 text-amber-700")">@priority</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-1">@body</p>
+                            <div class="flex items-center gap-3 mt-1.5">
+                                <span class="text-xs text-gray-400">@regBody · @age</span>
+                                @if (!string.IsNullOrEmpty(saving))
+                                {<span class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-0.5 rounded-full">Save @saving</span>}
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300 group-hover:text-brand-400 flex-shrink-0 mt-2 transition-colors"></i>
+                    </a>
+                }
+            </div>
+        </div>
+
+        <!-- Deadlines -->
+        <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                <h2 class="font-bold text-gray-900">Deadlines</h2>
+                <span class="text-xs text-gray-400">Next 30 days</span>
+            </div>
+            <div class="divide-y divide-gray-50">
+                @{
+                    var deadlines = new[]
+                    {
+                        ("ESI Contribution","Due in 3 days","text-red-600","border-l-red-400"),
+                        ("GSTR-3B Filing","Due in 5 days","text-amber-600","border-l-amber-400"),
+                        ("TDS Payment Q4","Due in 12 days","text-amber-600","border-l-amber-400"),
+                        ("MCA Annual Report","Due in 21 days","text-green-600","border-l-green-400"),
+                    };
+                }
+                @foreach (var (title, due, dueCls, borderCls) in deadlines)
+                {
+                    <div class="px-6 py-4 border-l-4 @borderCls">
+                        <p class="text-sm font-semibold text-gray-900">@title</p>
+                        <p class="text-xs @dueCls font-medium mt-0.5">@due</p>
+                    </div>
+                }
+            </div>
+            <div class="px-6 py-4 border-t border-gray-100">
+                <a asp-controller="Reports" asp-action="Monthly"
+                   class="text-sm text-brand-600 hover:text-brand-700 font-medium">View full calendar →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weekly activity chart -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="font-bold text-gray-900">Weekly Alert Activity</h2>
+            <span class="text-xs text-gray-400">Last 7 days</span>
+        </div>
+        <div class="flex items-end gap-3 h-28">
+            @foreach (var (day, val) in new[] { ("Mon",2),("Tue",5),("Wed",3),("Thu",8),("Fri",4),("Sat",6),("Sun",3) })
+            {
+                <div class="flex-1 flex flex-col items-center gap-1.5">
+                    <span class="text-xs font-semibold text-brand-600">@val</span>
+                    <div class="w-full bg-brand-500 rounded-t-lg hover:bg-brand-600 transition-colors"
+                         style="height:@(val * 10)px" title="@val alerts"></div>
+                    <span class="text-xs text-gray-400">@day</span>
+                </div>
+            }
+        </div>
+    </div>
+</div>

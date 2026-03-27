@@ -1,0 +1,63 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "About Us";
+}
+<style>.gradient-hero{background:linear-gradient(135deg,#142857 0%,#1a6df5 100%)}</style>
+
+<div class="gradient-hero pt-24 pb-16 text-white text-center px-4">
+    <h1 class="text-5xl font-black mb-4">About RegWatch India</h1>
+    <p class="text-white/70 text-lg max-w-2xl mx-auto">We believe every Indian business deserves to know about regulatory changes — in plain language, on time.</p>
+</div>
+
+<section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="mb-16">
+            <h2 class="text-3xl font-black text-gray-900 mb-6">Our Mission</h2>
+            <p class="text-gray-600 leading-relaxed text-lg mb-6">
+                India's regulatory landscape is complex. CBIC issues hundreds of notifications a year. SEBI amends listing obligations quarterly. EPFO revises wage ceilings. For the 63 million MSMEs in India, keeping track is a full-time job — one most businesses simply cannot afford.
+            </p>
+            <p class="text-gray-600 leading-relaxed text-lg">
+                RegWatch India was founded in 2024 to solve this problem. We use AI-powered web scraping and natural language processing to monitor 40+ regulatory bodies and translate complex legal language into clear, actionable alerts in English and Hindi.
+            </p>
+        </div>
+        <!-- Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            @foreach (var s in new[] { ("2,000+","Businesses Protected"), ("40+","Bodies Monitored"), ("₹12 Cr+","Savings Identified") })
+            {
+                <div class="text-center bg-brand-50 rounded-2xl p-8">
+                    <p class="text-4xl font-black text-brand-600 mb-2">@s.Item1</p>
+                    <p class="text-gray-600 font-medium">@s.Item2</p>
+                </div>
+            }
+        </div>
+        <!-- Team -->
+        <div class="mb-16">
+            <h2 class="text-3xl font-black text-gray-900 mb-8">Our Values</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @foreach (var v in new[] {
+                    ("shield-check","Accuracy First","Every alert is verified before delivery. We never trade speed for correctness."),
+                    ("languages","Bilingual by Design","English and Hindi summaries ensure accessibility across all of India."),
+                    ("users","SME-Focused","Built for the 63 million Indian businesses that can't afford a compliance team."),
+                    ("lock","Privacy & Security","Your business data is encrypted, never sold, and fully DPDP-compliant."),
+                })
+                {
+                    <div class="flex gap-4 bg-gray-50 rounded-2xl p-6">
+                        <div class="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="@v.Item1" class="w-5 h-5 text-brand-600"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-gray-900 mb-1">@v.Item2</h3>
+                            <p class="text-gray-500 text-sm">@v.Item3</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="text-center">
+            <a asp-controller="Auth" asp-action="Register"
+               class="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 text-white font-bold rounded-2xl hover:bg-brand-700 transition-colors text-lg">
+                Start for Free <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+        </div>
+    </div>
+</section>

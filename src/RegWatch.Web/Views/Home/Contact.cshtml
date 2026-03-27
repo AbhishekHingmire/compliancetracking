@@ -1,0 +1,84 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Contact Us";
+}
+<style>.gradient-hero{background:linear-gradient(135deg,#142857 0%,#1a6df5 100%)}</style>
+
+<div class="gradient-hero pt-24 pb-16 text-white text-center px-4">
+    <h1 class="text-5xl font-black mb-4">Contact Us</h1>
+    <p class="text-white/70 text-lg">We'd love to hear from you. Our team responds within 24 hours.</p>
+</div>
+
+<section class="py-20 bg-gray-50">
+    <div class="max-w-5xl mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+            <!-- Info -->
+            <div class="lg:col-span-2 space-y-8">
+                @foreach (var c in new[] {
+                    ("mail","Email Us","hello@regwatch.in","mailto:hello@regwatch.in"),
+                    ("message-square","WhatsApp","+91 98765 43210","https://wa.me/919876543210"),
+                    ("map-pin","Office","Pune, Maharashtra, India","#"),
+                    ("clock","Response Time","Within 24 business hours","#"),
+                })
+                {
+                    <div class="flex gap-4">
+                        <div class="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="@c.Item1" class="w-6 h-6 text-brand-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900 mb-1">@c.Item2</p>
+                            <a href="@c.Item4" class="text-gray-500 hover:text-brand-600 transition-colors text-sm">@c.Item3</a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- Form -->
+            <div class="lg:col-span-3 bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Send a Message</h2>
+                @if (TempData["ContactSuccess"] != null)
+                {
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-6 flex items-center gap-3">
+                        <i data-lucide="check-circle" class="w-5 h-5 text-green-600 flex-shrink-0"></i>
+                        <p class="text-green-700 text-sm font-medium">Message sent! We'll get back to you within 24 hours.</p>
+                    </div>
+                }
+                <form asp-controller="Home" asp-action="ContactSubmit" method="post" class="space-y-5">
+                    @Html.AntiForgeryToken()
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Name</label>
+                            <input type="text" name="name" placeholder="Rahul Kumar" required
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 focus:border-brand-400 outline-none transition text-sm" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
+                            <input type="email" name="email" placeholder="rahul@company.in" required
+                                   class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 focus:border-brand-400 outline-none transition text-sm" />
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Subject</label>
+                        <select name="subject"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 outline-none text-sm bg-white">
+                            <option value="">Select a topic…</option>
+                            <option>Sales enquiry</option>
+                            <option>Technical support</option>
+                            <option>Billing issue</option>
+                            <option>Feature request</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5">Message</label>
+                        <textarea name="message" rows="5" placeholder="Tell us how we can help…" required
+                                  class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-400 focus:border-brand-400 outline-none transition text-sm resize-none"></textarea>
+                    </div>
+                    <button type="submit"
+                            class="w-full py-3.5 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="send" class="w-4 h-4"></i>Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

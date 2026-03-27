@@ -1,0 +1,95 @@
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewData["Title"] = "Compliance Alerts";
+}
+<style>[x-cloak]{display:none!important}</style>
+
+<div x-data="{
+    filter: 'all',
+    search: '',
+    alerts: [
+        { id:1, title:'GST Rate Change on Textile Products', body:'CBIC notified revised GST rates on synthetic textile products effective 1 April.', priority:'High', body_name:'CBIC', age:'2 hours ago', saving:'₹85,000', status:'unread', tags:['GST','Textile','CBIC'] },
+        { id:2, title:'PF Contribution Threshold Revised', body:'EPFO revised salary threshold for mandatory PF contribution to ₹21,000/month.', priority:'High', body_name:'EPFO', age:'5 hours ago', saving:'₹36,000', status:'unread', tags:['PF','Labour'] },
+        { id:3, title:'SEBI LODR Amendment — Board Composition', body:'Listed entities must ensure at least one independent woman director by 31 March.', priority:'Medium', body_name:'SEBI', age:'1 day ago', saving:'', status:'read', tags:['SEBI','Governance'] },
+        { id:4, title:'FSSAI Labelling Rules for Packaged Food', body:'New mandatory label requirements for front-of-pack nutritional info.', priority:'Medium', body_name:'FSSAI', age:'2 days ago', saving:'', status:'read', tags:['FSSAI','Food'] },
+        { id:5, title:'RBI Digital Lending Guidelines Update', body:'RBI updated digital lending framework — KYC and disbursement norms tightened.', priority:'High', body_name:'RBI', age:'3 days ago', saving:'₹1,20,000', status:'actioned', tags:['RBI','Fintech'] },
+        { id:6, title:'MCA E-Form AOC-4 Deadline Extension', body:'MCA has extended the deadline for filing AOC-4 to 31 March 2025.', priority:'Low', body_name:'MCA', age:'4 days ago', saving:'', status:'actioned', tags:['MCA','Compliance'] },
+    ],
+    get filtered() {
+        return this.alerts.filter(a => {
+            const matchFilter = this.filter === 'all' || a.status === this.filter || a.priority.toLowerCase() === this.filter;
+            const matchSearch = !this.search || a.title.toLowerCase().includes(this.search.toLowerCase()) || a.body_name.toLowerCase().includes(this.search.toLowerCase());
+            return matchFilter && matchSearch;
+        });
+    }
+}" class="space-y-5">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between flex-wrap gap-3">
+        <div>
+            <h1 class="text-2xl font-black text-gray-900">Compliance Alerts</h1>
+            <p class="text-gray-500 text-sm mt-1">Personalised alerts for your business profile</p>
+        </div>
+        <div class="flex gap-2">
+            <button class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-sm font-medium rounded-xl hover:bg-gray-50 transition-colors">
+                <i data-lucide="filter" class="w-4 h-4 text-gray-500"></i>Filter
+            </button>
+        </div>
+    </div>
+
+    <!-- Search + filters -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex flex-col sm:flex-row gap-3 items-center">
+        <div class="relative flex-1 w-full">
+            <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"></i>
+            <input type="text" placeholder="Search alerts, bodies…" x-model="search"
+                   class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-400 focus:border-brand-400 outline-none text-sm" />
+        </div>
+        <div class="flex gap-2 flex-wrap">
+            @foreach (var f in new[] { ("all","All"), ("unread","Unread"), ("read","Read"), ("actioned","Actioned"), ("high","High"), ("medium","Medium") })
+            {
+                <button @@click="filter='@f.Item1'"
+                        :class="filter==='@f.Item1' ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'"
+                        class="px-3 py-1.5 text-xs font-semibold rounded-xl border transition-colors">
+                    @f.Item2
+                </button>
+            }
+        </div>
+    </div>
+
+    <!-- Alert list -->
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <template x-if="filtered.length === 0">
+            <div class="py-20 text-center text-gray-400">
+                <i data-lucide="inbox" class="w-10 h-10 mx-auto mb-3 opacity-50"></i>
+                <p class="font-medium">No alerts match your filters</p>
+            </div>
+        </template>
+        <div class="divide-y divide-gray-50">
+            <template x-for="a in filtered" :key="a.id">
+                <a :href="'/Alerts/Detail/' + a.id"
+                   class="flex items-start gap-4 px-6 py-5 hover:bg-gray-50 transition-colors group">
+                    <div :class="{ 'bg-red-500': a.priority==='High', 'bg-amber-500': a.priority==='Medium', 'bg-gray-300': a.priority==='Low' }"
+                         class="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0"
+                         :style="a.status !== 'unread' ? 'opacity:0.4' : ''"></div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-start justify-between gap-3">
+                            <p class="font-semibold text-gray-900 text-sm group-hover:text-brand-600 transition-colors leading-tight"
+                               x-text="a.title" :class="{ 'font-bold': a.status==='unread' }"></p>
+                            <span :class="{ 'bg-red-100 text-red-700': a.priority==='High', 'bg-amber-100 text-amber-700': a.priority==='Medium', 'bg-gray-100 text-gray-600': a.priority==='Low' }"
+                                  class="flex-shrink-0 text-xs px-2 py-0.5 rounded-full font-semibold" x-text="a.priority"></span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1 line-clamp-1" x-text="a.body"></p>
+                        <div class="flex items-center flex-wrap gap-2 mt-1.5">
+                            <span class="text-xs text-gray-400" x-text="a.body_name + ' · ' + a.age"></span>
+                            <span x-show="a.saving" class="text-xs text-green-600 font-semibold bg-green-50 px-2 py-0.5 rounded-full" x-text="'Save ' + a.saving"></span>
+                            <template x-for="tag in a.tags">
+                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full" x-text="tag"></span>
+                            </template>
+                        </div>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300 group-hover:text-brand-400 flex-shrink-0 mt-2 transition-colors"></i>
+                </a>
+            </template>
+        </div>
+    </div>
+</div>
