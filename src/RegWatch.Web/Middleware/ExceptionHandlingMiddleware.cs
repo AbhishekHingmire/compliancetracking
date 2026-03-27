@@ -28,7 +28,10 @@ public class ExceptionHandlingMiddleware
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            var response = new { error = "An unexpected error occurred.", detail = ex.Message };
+            var isDevelopment = context.RequestServices
+                .GetService<IWebHostEnvironment>()?.IsDevelopment() ?? false;
+            var detail = isDevelopment ? ex.Message : null;
+            var response = new { error = "An unexpected error occurred.", detail };
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
         context.Response.Redirect("/home/error");

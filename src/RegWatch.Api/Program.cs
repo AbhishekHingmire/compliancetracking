@@ -21,7 +21,9 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "RegWatchIndia_SuperSecret_Dev_Key_2024!";
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrWhiteSpace(jwtKey))
+    throw new InvalidOperationException("JWT key (Jwt:Key) is not configured. Use dotnet user-secrets or environment variables.");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -35,7 +37,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
-builder.Services.AddCors(opt => opt.AddDefaultPolicy(p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+    ?? Array.Empty<string>();
+builder.Services.AddCors(opt => opt.AddDefaultPolicy(p =>
+{
+    if (builder.Environment.IsDevelopment())
+        p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    else
+        p.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader();
+}));
 
 var app = builder.Build();
 

@@ -3638,7 +3638,7 @@
     ]
   },
   "packageFolders": {
-    "/home/runner/.nuget/packages/": {}
+    "/tmp/codeql-scratch-39ea942562ba97a5/dbs/csharp/working/packages": {}
   },
   "project": {
     "version": "1.0.0",
@@ -3646,7 +3646,7 @@
       "projectUniqueName": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Api/RegWatch.Api.csproj",
       "projectName": "RegWatch.Api",
       "projectPath": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Api/RegWatch.Api.csproj",
-      "packagesPath": "/home/runner/.nuget/packages/",
+      "packagesPath": "/tmp/codeql-scratch-39ea942562ba97a5/dbs/csharp/working/packages",
       "outputPath": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
@@ -3707,6 +3707,20 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.25, 8.0.25]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.linux-x64",
+            "version": "[8.0.25, 8.0.25]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.25, 8.0.25]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
