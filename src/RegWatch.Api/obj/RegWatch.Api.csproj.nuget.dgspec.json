@@ -10,7 +10,7 @@
         "projectUniqueName": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Api/RegWatch.Api.csproj",
         "projectName": "RegWatch.Api",
         "projectPath": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Api/RegWatch.Api.csproj",
-        "packagesPath": "/tmp/codeql-scratch-39ea942562ba97a5/dbs/csharp/working/packages",
+        "packagesPath": "/home/runner/.nuget/packages/",
         "outputPath": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
@@ -71,20 +71,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.25, 8.0.25]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.linux-x64",
-              "version": "[8.0.25, 8.0.25]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.25, 8.0.25]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -103,7 +89,7 @@
         "projectUniqueName": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Core/RegWatch.Core.csproj",
         "projectName": "RegWatch.Core",
         "projectPath": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Core/RegWatch.Core.csproj",
-        "packagesPath": "/tmp/codeql-scratch-39ea942562ba97a5/dbs/csharp/working/packages",
+        "packagesPath": "/home/runner/.nuget/packages/",
         "outputPath": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Core/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
@@ -157,16 +143,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.25, 8.0.25]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.25, 8.0.25]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -182,7 +158,7 @@
         "projectUniqueName": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Infrastructure/RegWatch.Infrastructure.csproj",
         "projectName": "RegWatch.Infrastructure",
         "projectPath": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Infrastructure/RegWatch.Infrastructure.csproj",
-        "packagesPath": "/tmp/codeql-scratch-39ea942562ba97a5/dbs/csharp/working/packages",
+        "packagesPath": "/home/runner/.nuget/packages/",
         "outputPath": "/home/runner/work/compliancetracking/compliancetracking/src/RegWatch.Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
@@ -264,16 +240,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.25, 8.0.25]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.25, 8.0.25]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
