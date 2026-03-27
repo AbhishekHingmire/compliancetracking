@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using RegWatch.Core.Interfaces;
 namespace RegWatch.Api.Controllers;
 
+// REST API secured via JWT Bearer — CSRF token not applicable (bearer tokens are not auto-sent by browsers)
 [ApiController]
+[IgnoreAntiforgeryToken]
 [Route("api/v1/[controller]")]
 [Authorize]
 public class AlertsController : ControllerBase
