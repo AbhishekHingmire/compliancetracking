@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "RegWatch.Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:50319;http://localhost:50321"
+    }
+  }
+}
