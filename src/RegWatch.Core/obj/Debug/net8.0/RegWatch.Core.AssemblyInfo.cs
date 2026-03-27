@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RegWatch.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a753e63ef1af32b93608d3af15c14725e79a903")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+27d112e475287200a8f5bbccd55e4133a825d736")]
 [assembly: System.Reflection.AssemblyProductAttribute("RegWatch.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RegWatch.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
