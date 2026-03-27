@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RegWatch.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8aba32912d393f59d047b42bfb3836866f5c283")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a753e63ef1af32b93608d3af15c14725e79a903")]
 [assembly: System.Reflection.AssemblyProductAttribute("RegWatch.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RegWatch.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
